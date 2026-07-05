@@ -8,10 +8,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variants = {
-  default: "bg-foreground text-background hover:opacity-90",
-  secondary: "bg-muted text-foreground hover:bg-muted/80",
-  ghost: "bg-transparent hover:bg-muted text-foreground",
-  outline: "border border-border bg-background hover:bg-muted text-foreground",
+  default:
+    "bg-gradient-to-r from-fuchsia-500 via-violet-500 to-pink-500 text-white shadow-[0_10px_24px_rgba(168,85,247,0.24)] hover:opacity-95",
+  secondary: "bg-fuchsia-50 text-fuchsia-950 hover:bg-fuchsia-100 dark:bg-white/5 dark:text-white",
+  ghost: "bg-transparent hover:bg-fuchsia-50 text-foreground dark:hover:bg-white/5",
+  outline:
+    "border border-fuchsia-200/80 bg-white/70 text-fuchsia-950 hover:bg-fuchsia-50 dark:border-white/10 dark:bg-white/5 dark:text-white",
 };
 
 const sizes = {
@@ -30,7 +32,7 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
         sizes[size],
         className,
@@ -41,4 +43,3 @@ export function Button({
     </button>
   );
 }
-

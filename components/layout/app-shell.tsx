@@ -5,7 +5,7 @@ import { Topbar } from "@/components/layout/topbar";
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_35%),linear-gradient(to_bottom,_hsl(var(--background)),_hsl(var(--background)))] text-foreground">
+    <div className="min-h-screen text-foreground">
       <div className="mx-auto flex min-h-screen max-w-[1600px]">
         <Sidebar />
         <div className="flex min-w-0 flex-1 flex-col">
@@ -17,4 +17,3 @@ export function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
-

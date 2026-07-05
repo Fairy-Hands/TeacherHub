@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 
 export function Topbar() {
   return (
-    <header className="flex items-center justify-between gap-4 border-b border-border/70 px-4 py-4 md:px-8">
+    <header className="relative flex items-center justify-between gap-4 border-b border-border/60 bg-background/70 px-4 py-4 backdrop-blur md:px-8">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-fuchsia-300 via-violet-400 to-pink-300" />
       <div>
         <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Teacher Hub</p>
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
@@ -25,4 +26,3 @@ export function Topbar() {
     </header>
   );
 }
-
