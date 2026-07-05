@@ -71,7 +71,7 @@ export default async function StudentsPage() {
         ) : (
           <Card className="xl:col-span-2">
             <p className="text-sm text-muted-foreground">
-              Nenhum aluno cadastrado ainda. Use o botão "Novo aluno" para começar.
+              Nenhum aluno cadastrado ainda. Use o botão {"\"Novo aluno\""} para começar.
             </p>
           </Card>
         )}
@@ -79,4 +79,3 @@ export default async function StudentsPage() {
     </AppShell>
   );
 }
-
