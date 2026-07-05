@@ -1,9 +1,9 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { students } from "@/lib/mock-data";
 import Link from "next/link";
+import { StudentCreateModal } from "@/components/students/student-create-modal";
 
 export default function StudentsPage() {
   return (
@@ -13,7 +13,7 @@ export default function StudentsPage() {
           <h2 className="text-2xl font-semibold">Alunos</h2>
           <p className="text-sm text-muted-foreground">Cadastro rápido, busca e histórico por aluno.</p>
         </div>
-        <Button>Novo aluno</Button>
+        <StudentCreateModal />
       </div>
 
       <div className="mt-6 grid gap-4 xl:grid-cols-2">
@@ -37,9 +37,6 @@ export default function StudentsPage() {
               >
                 Ver perfil
               </Link>
-              <Button variant="outline" size="sm">
-                Registrar aula
-              </Button>
             </div>
           </Card>
         ))}
