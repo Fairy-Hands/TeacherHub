@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  ASSISTANT
+}
+
+enum StudentLevel {
+  A1
+  A2
+  B1
+  B2
+  C1
+  C2
+}
+
+enum LessonStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELED
+  RESCHEDULED
+  STUDENT_NO_SHOW
+  TEACHER_NO_SHOW
+}
+
+enum LessonMode {
+  ONLINE
+  IN_PERSON
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  OVERDUE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  image         String?
+  role          UserRole  @default(OWNER)
+  theme         String    @default("system")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  students      Student[]
+  lessons       Lesson[]
+  lessonLogs    LessonLog[]
+  payments      Payment[]
+}
+
+model Student {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  photoUrl        String?
+  email           String?
+  phone           String?
+  age             Int?
+  profession      String?
+  level           StudentLevel
+  goal            String?
+  startDate       DateTime?
+  lessonPrice     Decimal?      @db.Decimal(10, 2)
+  weeklyFrequency Int?
+  weekDays        Json?
+  notes           String?
+  interests       String?
+  difficulties    String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  lessons         Lesson[]
+  lessonLogs      LessonLog[]
+  payments        Payment[]
+
+  @@index([userId, name])
+}
+
+model Lesson {
+  id              String        @id @default(cuid())
+  userId          String
+  studentId       String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  student         Student       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  startsAt        DateTime
+  durationMinutes Int
+  mode            LessonMode
+  meetingLink     String?
+  status          LessonStatus  @default(SCHEDULED)
+  recurrenceRule  String?
+  recurrenceUntil DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  log             LessonLog?
+
+  @@index([userId, startsAt])
+  @@index([studentId, startsAt])
+}
+
+model LessonLog {
+  id           String   @id @default(cuid())
+  userId       String
+  studentId    String
+  lessonId     String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lesson       Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  content      String
+  grammar      String?
+  vocabulary   String?
+  speaking     String?
+  listening    String?
+  reading      String?
+  writing      String?
+  homework     String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([studentId, createdAt])
+}
+
+model Payment {
+  id            String         @id @default(cuid())
+  userId        String
+  studentId     String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  student       Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  competence    String
+  amount        Decimal        @db.Decimal(10, 2)
+  dueDate       DateTime
+  paidAt        DateTime?
+  status        PaymentStatus  @default(PENDING)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([userId, status, dueDate])
+  @@index([studentId, competence])
+}
+
