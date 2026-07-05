@@ -4,25 +4,28 @@ import { prisma } from "@/lib/prisma";
 import { getAuthSession } from "@/lib/auth";
 import { LessonCreateModal } from "@/components/schedule/lesson-create-modal";
 import { Badge } from "@/components/ui/badge";
+import { redirect } from "next/navigation";
 
 export default async function SchedulePage() {
   const session = await getAuthSession();
 
-  const [students, lessons] = session?.user?.id
-    ? await Promise.all([
-        prisma.student.findMany({
-          where: { userId: session.user.id },
-          orderBy: { name: "asc" },
-          select: { id: true, name: true },
-        }),
-        prisma.lesson.findMany({
-          where: { userId: session.user.id },
-          include: { student: { select: { name: true } } },
-          orderBy: { startsAt: "asc" },
-          take: 8,
-        }),
-      ])
-    : [[], []];
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+
+  const [students, lessons] = await Promise.all([
+    prisma.student.findMany({
+      where: { userId: session.user.id },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true },
+    }),
+    prisma.lesson.findMany({
+      where: { userId: session.user.id },
+      include: { student: { select: { name: true } } },
+      orderBy: { startsAt: "asc" },
+      take: 8,
+    }),
+  ]);
 
   return (
     <AppShell>
