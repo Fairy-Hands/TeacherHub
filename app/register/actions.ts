@@ -10,7 +10,7 @@ export async function registerUser(formData: FormData) {
   const password = String(formData.get("password") ?? "");
 
   if (!name || !email || password.length < 8) {
-    return { error: "Preencha nome, e-mail e uma senha com pelo menos 8 caracteres." };
+    throw new Error("Preencha nome, e-mail e uma senha com pelo menos 8 caracteres.");
   }
 
   const existingUser = await prisma.user.findUnique({
@@ -18,7 +18,7 @@ export async function registerUser(formData: FormData) {
   });
 
   if (existingUser) {
-    return { error: "Já existe uma conta com este e-mail." };
+    throw new Error("Já existe uma conta com este e-mail.");
   }
 
   await prisma.user.create({
@@ -31,4 +31,3 @@ export async function registerUser(formData: FormData) {
 
   redirect("/login");
 }
-

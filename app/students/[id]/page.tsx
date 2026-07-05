@@ -24,9 +24,9 @@ const lessonsTimeline = [
 export default async function StudentProfilePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   return (
     <AppShell>

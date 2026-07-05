@@ -1,15 +1,23 @@
 import Link from "next/link";
-import { BarChart3, CalendarDays, GraduationCap, NotebookText, ReceiptText, Settings } from "lucide-react";
+import type { Route } from "next";
+import {
+  BarChart3,
+  CalendarDays,
+  GraduationCap,
+  NotebookText,
+  ReceiptText,
+  Settings,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { href: "/", label: "Dashboard", icon: BarChart3 },
-  { href: "/students", label: "Alunos", icon: GraduationCap },
-  { href: "/schedule", label: "Agenda", icon: CalendarDays },
-  { href: "/journal", label: "Diário", icon: NotebookText },
-  { href: "/finance", label: "Financeiro", icon: ReceiptText },
-  { href: "/settings", label: "Configurações", icon: Settings },
-];
+  { href: "/" as Route, label: "Dashboard", icon: BarChart3 },
+  { href: "/students" as Route, label: "Alunos", icon: GraduationCap },
+  { href: "/schedule" as Route, label: "Agenda", icon: CalendarDays },
+  { href: "/journal" as Route, label: "Diário", icon: NotebookText },
+  { href: "/finance" as Route, label: "Financeiro", icon: ReceiptText },
+  { href: "/settings" as Route, label: "Configurações", icon: Settings },
+] as const;
 
 export function Sidebar() {
   return (

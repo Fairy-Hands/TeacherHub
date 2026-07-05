@@ -1,12 +1,13 @@
 import Link from "next/link";
+import type { Route } from "next";
 import { BarChart3, CalendarDays, GraduationCap, ReceiptText } from "lucide-react";
 
 const items = [
-  { href: "/", label: "Home", icon: BarChart3 },
-  { href: "/students", label: "Alunos", icon: GraduationCap },
-  { href: "/schedule", label: "Agenda", icon: CalendarDays },
-  { href: "/finance", label: "Pagos", icon: ReceiptText },
-];
+  { href: "/" as Route, label: "Home", icon: BarChart3 },
+  { href: "/students" as Route, label: "Alunos", icon: GraduationCap },
+  { href: "/schedule" as Route, label: "Agenda", icon: CalendarDays },
+  { href: "/finance" as Route, label: "Pagos", icon: ReceiptText },
+] as const;
 
 export function BottomNav() {
   return (
@@ -27,4 +28,3 @@ export function BottomNav() {
     </nav>
   );
 }
-

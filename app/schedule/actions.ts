@@ -4,6 +4,7 @@ import { addWeeks } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getAuthSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { LessonMode } from "@prisma/client";
 
 export async function createLesson(formData: FormData) {
   const session = await getAuthSession();
@@ -32,7 +33,7 @@ export async function createLesson(formData: FormData) {
     studentId,
     startsAt: addWeeks(baseStartsAt, index),
     durationMinutes: Number.isNaN(durationMinutes) ? 60 : durationMinutes,
-    mode: mode === "IN_PERSON" ? "IN_PERSON" : "ONLINE",
+    mode: mode === "IN_PERSON" ? LessonMode.IN_PERSON : LessonMode.ONLINE,
     meetingLink: meetingLink || null,
     status: "SCHEDULED" as const,
     recurrenceRule: recurrenceEnabled ? `RRULE:FREQ=WEEKLY;COUNT=${count}` : null,
@@ -48,4 +49,3 @@ export async function createLesson(formData: FormData) {
 
   return { success: true };
 }
-
